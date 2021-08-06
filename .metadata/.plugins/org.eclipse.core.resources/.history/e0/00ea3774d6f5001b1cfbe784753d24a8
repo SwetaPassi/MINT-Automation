@@ -1,0 +1,73 @@
+
+package com.mint.modulePageElements;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import com.mint.testBase.BasePageClass;
+
+public class LoginPageElements extends BasePageClass {
+
+	@FindBy(xpath = "//li[@class='app-button-wrapper notranslate']//img[@alt='Graphic Link Mint-Staging-App']")
+	WebElement mintStaginAppButton;
+
+	@FindBy(id = "idp-discovery-username")
+	WebElement emailAddress;
+
+	@FindBy(id = "idp-discovery-submit")
+	WebElement nextButton;
+
+	@FindBy(id = "okta-signin-password")
+	WebElement password;
+
+	@FindBy(id = "okta-signin-submit")
+	WebElement submitButton;
+
+	WebDriver driver;
+
+	public LoginPageElements(WebDriver driver) {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
+
+	public void enterEmailAddress() {
+		if (elementIsDisplayed(emailAddress)) {
+			emailAddress.sendKeys(prop.getProperty("userName"));
+		}
+	}
+
+	public void clickOnNextButton() {
+		if (elementIsDisplayed(nextButton)) {
+			click(nextButton);
+		}
+	}
+
+	public void enterPassword() {
+		if (elementIsDisplayed(password)) {
+			password.sendKeys(prop.getProperty("password"));
+		}
+	}
+
+	public void clickOnSubmitButton() {
+		if (elementIsDisplayed(submitButton)) {
+			click(submitButton);
+		}
+	}
+
+	public void clickOnMintStaging() {
+		if (elementIsDisplayed(mintStaginAppButton)) {
+			click(mintStaginAppButton);
+		}
+	}
+
+	public void loginToFoxOktaAndClickOnMintStaging() {
+		enterEmailAddress();
+		enterPassword();
+		clickOnSubmitButton();
+		System.out.println("Logging got successful");
+		clickOnMintStaging();
+	}
+}

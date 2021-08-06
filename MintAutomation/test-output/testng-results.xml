@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="57771" started-at="2021-08-06T13:09:50 IST" finished-at="2021-08-06T13:10:47 IST">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="57771" started-at="2021-08-06T13:09:50 IST" finished-at="2021-08-06T13:10:47 IST">
+      <class name="com.mint.moduleTestScripts.CreateProposalBriefTestScripts">
+        <test-method status="PASS" signature="setUp()[pri:0, instance:com.mint.moduleTestScripts.CreateProposalBriefTestScripts@4493d195]" name="setUp" is-config="true" duration-ms="5693" started-at="2021-08-06T13:09:50 IST" finished-at="2021-08-06T13:09:55 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="createProposalBriefTestScripts()[pri:0, instance:com.mint.moduleTestScripts.CreateProposalBriefTestScripts@4493d195]" name="createProposalBriefTestScripts" duration-ms="52018" started-at="2021-08-06T13:09:55 IST" description="performs the login functionality" finished-at="2021-08-06T13:10:47 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- createProposalBriefTestScripts -->
+        <test-method status="PASS" signature="Close()[pri:0, instance:com.mint.moduleTestScripts.CreateProposalBriefTestScripts@4493d195]" name="Close" is-config="true" duration-ms="0" started-at="2021-08-06T13:10:47 IST" finished-at="2021-08-06T13:10:47 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Close -->
+      </class> <!-- com.mint.moduleTestScripts.CreateProposalBriefTestScripts -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

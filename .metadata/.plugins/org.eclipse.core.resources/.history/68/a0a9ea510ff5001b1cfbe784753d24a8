@@ -1,0 +1,194 @@
+package com.mint.testBase;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.util.Date;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ru.yandex.qatools.allure.annotations.Step;
+
+public abstract class BasePageClass {
+
+	public WebDriverWait wait;
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	protected WebDriver driver;
+	public static final int MAX_TIMEOUT = 100;
+
+	protected BasePageClass(WebDriver driver) {
+		this.driver = driver;
+		this.wait = new WebDriverWait(driver, 30);
+	}
+
+	public WebDriver getWebDriver() {
+		return driver;
+	}
+
+	public String getTitle() {
+		return driver.getTitle();
+	}
+
+	public void selectDropdownValue(WebElement element, String dropdownValue) throws InterruptedException {
+		Select selvalue = new Select(element);
+		selvalue.selectByVisibleText(dropdownValue);
+	}
+
+	protected <K> FluentWait<K> waitOn(K object, int timeOutSeconds) {
+		return new FluentWait<>(object).ignoring(NoSuchElementException.class).ignoring(NoSuchElementException.class)
+				.ignoring(StaleElementReferenceException.class).ignoring(Exception.class)
+				.withTimeout(Duration.ofSeconds(timeOutSeconds));
+	}
+
+	protected boolean elementExists(WebElement element, int timeout) {
+		try {
+			wait.until(ExpectedConditions.visibilityOf(element));
+		} catch (Exception toe) {
+			return false;
+		}
+		return true;
+	}
+
+	protected boolean elementExists(WebElement element) {
+		return elementExists(element, MAX_TIMEOUT / 2);
+	}
+
+	protected boolean elementIsDisplayed(WebElement element) {
+		try {
+			wait.until(ExpectedConditions.visibilityOf(element)).isDisplayed();
+		} catch (Exception toe) {
+			return false;
+		}
+		return true;
+	}
+
+	protected boolean elementIsDisplayed(WebElement element, int timeout) {
+		try {
+			waitOn(getWebDriver(), timeout).until(ExpectedConditions.visibilityOf(element));
+		} catch (Exception toe) {
+			return false;
+		}
+		return true;
+	}
+
+	protected boolean elementIsPresent(WebElement element) {
+		try {
+			wait.until(ExpectedConditions.visibilityOf(element));
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+		return true;
+	}
+
+	protected boolean elementIsPresent(WebElement element, int timeout) {
+		try {
+			waitOn(getWebDriver(), timeout).until(ExpectedConditions.visibilityOf(element));
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+		return true;
+	}
+
+	protected void click(WebElement element) {
+		wait.until(ExpectedConditions.visibilityOf(element)).click();
+	}
+
+	protected void click(WebElement element, int timeout) {
+		waitOn(getWebDriver(), timeout).until(ExpectedConditions.visibilityOf(element)).click();
+	}
+
+	protected boolean getAttribute(WebElement element, String attr) {
+		return Boolean.valueOf(element.getAttribute(attr));
+	}
+
+	protected boolean elementIsEnable(WebElement element) {
+		try {
+			wait.until(ExpectedConditions.visibilityOf(element)).isEnabled();
+		} catch (Exception toe) {
+			return false;
+		}
+		return true;
+	}
+
+	protected String getText(WebElement element) {
+		return wait.until(ExpectedConditions.visibilityOf(element)).getText();
+	}
+
+	protected String[] splitString(String stringValue) {
+		return stringValue.replace(" ", "").split(",");
+	}
+
+	protected Date parseDate(String date, SimpleDateFormat formatter) {
+		Date dateParse = null;
+		try {
+			dateParse = formatter.parse(date);
+		} catch (ParseException e) {
+			logger.error(e.getMessage());
+		}
+		return dateParse;
+
+	}
+
+	protected void clearFieldAndThenType(WebElement element, String text) {
+		wait.until(ExpectedConditions.visibilityOf(element));
+		element.clear();
+		element.sendKeys(text);
+	}
+
+	protected void clickAndtype(WebElement element, String text) {
+		wait.until(ExpectedConditions.visibilityOf(element));
+		element.click();
+		element.clear();
+		element.sendKeys(text);
+	}
+
+	@Step("Get name from full name")
+	private String getNameFromFullContactName(String name, int index) {
+		return name.split(" ")[index];
+	}
+
+	@Step("Splits the full name")
+	protected String splitContactNameAndGetFirstCharOfNames(String name) {
+		return getNameFromFullContactName(name, 0).substring(0, 1)
+				+ getNameFromFullContactName(name, 1).substring(0, 1);
+	}
+
+	protected Integer getX(WebElement element) {
+		return element.getLocation().getX();
+	}
+
+	protected Integer getY(WebElement element) {
+		return element.getLocation().getY();
+	}
+
+	protected Integer getWidth(WebElement element) {
+		return element.getSize().getWidth();
+	}
+
+	protected Integer getHeight(WebElement element) {
+		return element.getSize().getHeight();
+	}
+
+	protected void waitForInvisibilityOf(WebElement element, int timeout) {
+		try {
+			waitOn(getWebDriver(), timeout).until(ExpectedConditions.visibilityOf(element));
+		} catch (Exception e) {
+			logger.info("The element is not displayed");
+		}
+	}
+
+	public void scrollToElement(WebElement element) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView(true);", element);
+	}
+}

@@ -1,0 +1,16 @@
+package com.mint.moduleTestScripts;
+
+import org.testng.annotations.Test;
+
+import com.mint.testBase.TestBaseClass;
+
+public class LoginModuleTestScripts extends TestBaseClass{
+	@Test
+	public void login() {
+		LoginModuleTestScripts loginScreenPage = new LoginScreenPage(driver);
+		loginScreenPage.loginToFoxOkta();
+		MyProposalScreenPage myProposalScreenPage = new MyProposalScreenPage(driver);
+		myProposalScreenPage.clickOnProposalButton();
+	}
+	
+}

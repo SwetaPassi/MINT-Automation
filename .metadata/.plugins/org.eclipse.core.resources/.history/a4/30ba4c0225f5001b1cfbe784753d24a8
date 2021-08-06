@@ -1,0 +1,35 @@
+package com.mint.pageobjects;
+
+import java.util.ArrayList;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import com.mint.testBase.BaseClass;
+import com.mint.testBase.BasePageClass;
+
+public class MyProposalScreenPage extends BasePageClass {
+
+	@FindBy(xpath = "//span[text()='Proposal']")
+	WebElement proposalButton;
+	
+	@FindBy(xpath = "//span[text()='My Proposal']")
+	WebElement myProposalButton;
+	
+	WebDriver driver;
+
+	public MyProposalScreenPage(WebDriver driver) {
+		this.driver = driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	public void clickOnProposalButton() {
+		ArrayList<String> tabs2 = new ArrayList<String> (driver.getWindowHandles());
+	    driver.switchTo().window(tabs2.get(1));
+		wait.until(ExpectedConditions.visibilityOf(proposalButton)).click();
+		wait.until(ExpectedConditions.visibilityOf(myProposalButton)).click();
+	}
+}

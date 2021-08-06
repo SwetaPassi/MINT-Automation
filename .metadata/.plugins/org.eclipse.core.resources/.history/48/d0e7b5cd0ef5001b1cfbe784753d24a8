@@ -1,0 +1,153 @@
+
+package com.qa.tocs.pageElements;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Random;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+
+import com.qa.tocs.base.BasePage;
+import com.qa.tocs.utils.DbConnectivity;
+
+public class CreateTalentAdvicePageElements extends BasePage {
+
+	@FindBy(xpath = "//a[@href='/TTCOnline/talentAdvicesOverview.do']")
+	WebElement talent;
+
+	@FindBy(xpath = "(//a[@href='/TTCOnline/talentAdviceAddNew.do'])[1]")
+	WebElement create;
+
+	@FindBy(id = "projId")
+	WebElement projectid;
+
+	@FindBy(name = "taPayTypeCode")
+	WebElement paymenttype;
+
+	@FindBy(xpath = "//button[@class='btn btn-primary btn-sm btn-block']")
+	WebElement createButton;
+
+	@FindBy(name = "taWeeks")
+	WebElement weeks;
+
+	@FindBy(xpath = "//input[@id='estNum']")
+	// @FindBy(name="taEstNumber")
+	WebElement estNumber;
+
+	@FindBy(xpath = "//input[@id='jobNum']")
+	WebElement jobNumber;
+
+	@FindBy(xpath = "//input[@id='poNum']")
+	WebElement poNumber;
+
+	@FindBy(xpath = "//input[@id='taCycleStart']")
+	WebElement cyclestartdate;
+
+	@FindBy(xpath = "//a[@id='calcButton']")
+	WebElement calcbutton;
+
+	@FindBy(xpath = "//input[@id='taCycleEnd']")
+	WebElement cycleEnddate;
+
+	public CreateTalentAdvicePageElements(WebDriver driver) {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
+
+	public void selectPaymentType(String enterPaymentType) {
+
+		Select paytype = new Select(paymenttype);
+		paytype.selectByVisibleText(enterPaymentType);
+
+	}
+
+	public void displayweeks(String[] expectedWeeks) {
+		Select select = new Select(weeks);
+		List<WebElement> options = select.getOptions();
+		for (WebElement we : options) {
+			boolean match = false;
+			for (int i = 0; i < expectedWeeks.length; i++) {
+				if (we.getText().equals(expectedWeeks[i])) {
+					System.out.println("The expected week is " + we.getText());
+					match = true;
+				}
+			}
+			Assert.assertTrue(match);
+		}
+	}
+
+	public CreateTalentAdvicePageElements createpaymentType(String paymentType)
+			throws InterruptedException, ClassNotFoundException, SQLException {
+		talent.click();
+		create.click();
+		projectid.sendKeys(fetchTheProjectId());
+		wait.until(ExpectedConditions.visibilityOf(paymenttype));
+		selectPaymentType(paymentType);
+		createButton.click();
+		if (createButton.isDisplayed()) {
+			createButton.click();
+		}else {
+			System.out.println("Navigating to  Next Page");
+		}
+		return this;
+
+	}
+
+	public CreateTalentAdvicePageElements enterEstNo() throws InterruptedException {
+		wait.until(ExpectedConditions.elementToBeClickable(estNumber));
+		estNumber.sendKeys(RandomStringUtils.randomAlphanumeric((5)));
+		return this;
+	}
+
+	public CreateTalentAdvicePageElements enterJobNo() {
+		jobNumber.sendKeys(RandomStringUtils.randomAlphanumeric((5)));
+		return this;
+	}
+
+	public void enterPONum() {
+		poNumber.sendKeys(RandomStringUtils.randomAlphanumeric((5)));
+	}
+
+	public void validateCalcDate(String SDate, String WeekNum, String EDate) throws InterruptedException {
+		Select week = new Select(weeks);
+		WeekNum = WeekNum.replaceAll("[.0]", "");
+		week.selectByValue(WeekNum);
+		String weeks1 = weeks.getAttribute("value");
+		System.out.println(weeks1);
+		cyclestartdate.sendKeys(SDate);
+		String cycledates1 = cyclestartdate.getAttribute("value");
+		System.out.println(cycledates1);
+		Assert.assertEquals(true, calcbutton.isEnabled());
+		calcbutton.click();
+		wait.until(ExpectedConditions.visibilityOf(cycleEnddate));
+		String cycleEnddate1 = cycleEnddate.getAttribute("value");
+		System.out.println(cycleEnddate1);
+		if (weeks1.equals(WeekNum) && cycledates1.equals(SDate)) {
+			Assert.assertEquals(cycleEnddate1, EDate); // cycleendate =02/25/19 and edqatr-= 25/11/19
+		} else {
+			Assert.fail();
+		}
+	}
+
+	public String fetchTheProjectId() throws ClassNotFoundException, SQLException {
+		DbConnectivity dbConnectivity = new DbConnectivity();
+		String query = "select * from stgdata.F5502 where QR$CID = '512'and QR$PTC = 'TC' and QR$UCT = 'COMML' and QR$PST = 'A' and QR$SHT = ' ' and QR$SPN != ' ' and QR$PID!= ' '";
+		String fetchColumnName = "QR$PCD";
+		List<String> projectIdList = dbConnectivity.dbConnectivityForAS400(query, fetchColumnName);
+		Random r = new Random();
+		int randomNumber = r.nextInt(projectIdList.size());
+		String projectId = projectIdList.get(randomNumber).trim();
+		System.out.println("The project id fetched from Database is = " + projectId);
+		return projectId;
+
+	}
+}

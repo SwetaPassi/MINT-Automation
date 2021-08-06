@@ -1,0 +1,118 @@
+package com.mint.testBase;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public abstract class BasePageClass {
+
+	public WebDriverWait wait;
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	protected WebDriver driver;
+	public static final int MAX_TIMEOUT = 100;
+	public Properties prop;
+	
+	protected BasePageClass(WebDriver driver) {
+		this.driver = driver;
+		this.wait = new WebDriverWait(driver, MAX_TIMEOUT);
+		configReader
+	}
+
+	public WebDriver getWebDriver() {
+		return driver;
+	}
+
+	public void configReader() {
+		try {prop = new Properties();
+		configFilePath = new FileInputStream(
+				System.getProperty("user.dir") + "\\src\\main\\resources\\config.properties");
+			prop.load(configFilePath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void selectDropdownValue(WebElement element, String dropdownValue) throws InterruptedException {
+		Select selvalue = new Select(element);
+		selvalue.selectByVisibleText(dropdownValue);
+	}
+
+	protected boolean elementExists(WebElement element, int timeout) throws Exception {
+		try {
+			wait.until(ExpectedConditions.visibilityOf(element));
+		} catch (Exception e) {
+			throw e;
+		}
+		return true;
+	}
+
+	protected boolean elementIsDisplayed(WebElement element) {
+		try {
+			wait.until(ExpectedConditions.visibilityOf(element)).isDisplayed();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+
+	}
+
+	protected boolean elementIsPresent(WebElement element) {
+		try {
+			wait.until(ExpectedConditions.visibilityOf(element));
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+		return true;
+	}
+
+	protected void click(WebElement element) {
+		wait.until(ExpectedConditions.visibilityOf(element)).click();
+	}
+
+	protected boolean getAttribute(WebElement element, String attr) {
+		return Boolean.valueOf(element.getAttribute(attr));
+	}
+
+	protected boolean elementIsEnable(WebElement element) {
+		try {
+			wait.until(ExpectedConditions.visibilityOf(element)).isEnabled();
+		} catch (Exception toe) {
+			return false;
+		}
+		return true;
+	}
+
+	protected String getText(WebElement element) {
+		return wait.until(ExpectedConditions.visibilityOf(element)).getText();
+	}
+
+	protected void clearFieldAndThenType(WebElement element, String text) {
+		wait.until(ExpectedConditions.visibilityOf(element));
+		element.clear();
+		element.sendKeys(text);
+	}
+
+	protected void clickAndtype(WebElement element, String text) {
+		wait.until(ExpectedConditions.visibilityOf(element));
+		element.click();
+		element.clear();
+		element.sendKeys(text);
+	}
+
+	public void scrollToElement(WebElement element) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView(true);", element);
+	}
+}

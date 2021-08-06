@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<item key="selection" value="findElem"/>
+		<list key="findhistory">
+			<item value="findelem"/>
+			<item value="MINT_UI_Sports"/>
+			<item value="min"/>
+			<item value="sport"/>
+			<item value="spo"/>
+			<item value="mint"/>
+			<item value="packa"/>
+			<item value="TC_2021__ToVerifyUserIsAbleToSearchThroughMintID"/>
+			<item value="west"/>
+			<item value="north"/>
+			<item value="Submitted Deal Start Date succesfully"/>
+			<item value="abbot"/>
+			<item value="date"/>
+			<item value="region"/>
+			<item value="runner"/>
+		</list>
+		<list key="replacehistory">
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="1011"/>
+		<item key="DIALOG_Y_ORIGIN" value="164"/>
+		<item key="DIALOG_WIDTH" value="284"/>
+		<item key="DIALOG_HEIGHT" value="396"/>
+		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>
+	</section>
+</section>

@@ -1,0 +1,50 @@
+package com.mint.modulePageElements;
+
+import java.util.ArrayList;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import com.mint.testBase.BasePageClass;
+
+public class MyProposalPageElements extends BasePageClass {
+
+	@FindBy(xpath = "//span[text()='Proposal']")
+	WebElement proposalButton;
+	
+	@FindBy(xpath = "//span[text()='My Proposal']")
+	WebElement myProposalButton;
+	
+	@FindBy(xpath= "//select[@class='form-control']")
+	WebElement selectChannel;
+	
+	WebDriver driver;
+
+	public MyProposalPageElements(WebDriver driver) {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
+	
+	public MyProposalPageElements clickOnProposalButton() throws Exception {
+		windowHandle(1);
+		if (elementIsDisplayed(proposalButton)) {
+			click(proposalButton);
+			selectDropdownByIndex(selectChannel, 9);
+		}
+		return this;
+	}
+	
+	public ProposalBriefPageElements clickOnMyProposalButton() {
+		if (elementIsDisplayed(myProposalButton)) {
+			click(myProposalButton);
+		}
+		return new ProposalBriefPageElements(driver);
+	}
+	
+	public void selectChannel() throws Exception {
+		selectDropdownByValue(selectChannel, "9");
+	}
+}

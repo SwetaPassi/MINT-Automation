@@ -1,0 +1,36 @@
+
+package com.mint.modulePageElements;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.mint.testBase.BasePageClass;
+
+public class LoginModulePageElements extends BasePageClass {
+	
+	@FindBy(xpath = "//li[@class='app-button-wrapper notranslate']//img[@alt='Graphic Link Mint-Staging-App']")
+	WebElement mintStaginAppButton;
+
+	@FindBy(id = "idp-discovery-username")
+	WebElement emailAddress;
+
+	@FindBy(id = "idp-discovery-submit")
+	WebElement nextButton;
+
+	@FindBy(id = "okta-signin-password")
+	WebElement password;
+
+	@FindBy(id = "okta-signin-submit")
+	WebElement submitButton;
+
+	WebDriver driver;
+
+	public LoginModulePageElements(WebDriver driver) {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
+
+
+}

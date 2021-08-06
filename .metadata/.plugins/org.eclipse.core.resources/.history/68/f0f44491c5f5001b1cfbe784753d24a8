@@ -1,0 +1,49 @@
+package com.mint.modulePageElements;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.mint.testBase.BasePageClass;
+
+public class ProposalBriefPageElements extends BasePageClass {
+	@FindBy(id="react-select-9--value")
+	WebElement advertiser;
+
+	@FindBy(xpath="//button[text()='Proceed']")
+	WebElement proceedButton;
+
+	@FindBy(id="react-select-3--value")
+	WebElement advertiserEntityName;
+	
+	@FindBy(id="react-select-4--value")
+	WebElement advertiser;
+	@FindBy(id="react-select-9--value")
+	WebElement advertiser;
+	@FindBy(id="react-select-9--value")
+	WebElement advertiser;
+	@FindBy(id="react-select-9--value")
+	WebElement advertiser;
+	@FindBy(id="react-select-9--value")
+	WebElement advertiser;
+	@FindBy(id="react-select-9--value")
+	WebElement advertiser;
+	@FindBy(id="react-select-9--value")
+	WebElement advertiser;
+	@FindBy(id="react-select-9--value")
+	WebElement advertiser;
+	@FindBy(id="react-select-9--value")
+	WebElement advertiser;
+	WebDriver driver;
+
+	public ProposalBriefPageElements(WebDriver driver) {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
+
+	public ProposalBriefPageElements selectAdvertiser() {
+		
+		return this;
+	}
+}

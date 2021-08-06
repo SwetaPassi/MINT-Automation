@@ -1,0 +1,24 @@
+package com.mint.modulePageElements;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.mint.testBase.BasePageClass;
+
+public class ProposalBriefPageElements extends BasePageClass {
+	@FindBy(id = "okta-signin-submit")
+	WebElement submitButton;
+
+	WebDriver driver;
+
+	public ProposalBriefPageElements(WebDriver driver) {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
+
+	public ProposalBriefPageElements selectAdvertiser() {
+		
+	}
+}
