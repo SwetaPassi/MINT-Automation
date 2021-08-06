@@ -19,7 +19,8 @@ public class CreateProposalBriefTestScripts extends TestBaseClass {
 		proposalBriefPageElements.selectAdvertiser().clickOnProceedButton().selectAdvertiserEntityName().selectAgencyName()
 				.selectAgencyEntityName().selectBrandName().selectRegionName().selectTheCurrency()
 				.selectTheProposalCategory().selectTheProposalComposition().selectTheProgramType()
-				.selectTheProposalStartDate().selectTheProposalEndDate().enterClientAskOutlayPrice().enterClientAskEr()
+				.selectTheProposalStartDate().selectTheProposalEndDate().enterClientAskOutlayPrice()
+				.enterClientAskEr()
 				.clickOnNextButton();
 	}
 }
